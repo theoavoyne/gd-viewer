@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "public": "public",
+    "predeploy": "yarn run build:prod",
+    "postdeploy": "rm -rf public/*",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
