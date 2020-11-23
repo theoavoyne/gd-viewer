@@ -1,4 +1,5 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
@@ -80,6 +81,12 @@ module.exports = (env) => {
       }),
       new BundleAnalyzerPlugin({
         analyzerMode: analyze ? 'server' : 'disabled',
+      }),
+      new CopyWebpackPlugin({
+        patterns: [{
+          from: 'node_modules/three/examples/js/libs/draco/gltf',
+          to: 'public/draco',
+        }],
       }),
     ],
   };

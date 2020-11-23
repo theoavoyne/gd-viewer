@@ -12,6 +12,7 @@
     // GLOBAL
     "no-alert": "off",
     "no-console": "off",
+    "no-param-reassign": "off",
 
     // REACT
     "react/jsx-filename-extension": "off",
