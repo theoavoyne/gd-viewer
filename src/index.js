@@ -57,7 +57,7 @@ const promises = [
     new RGBELoader()
       .setDataType(UnsignedByteType)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/barney-production.appspot.com/o/venice-sunset.hdr?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/venice-sunset.hdr?alt=media',
         (texture) => {
           const envMap = pmremGenerator.fromEquirectangular(texture).texture;
           pmremGenerator.dispose();
@@ -71,7 +71,7 @@ const promises = [
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/barney-production.appspot.com/o/black-shoe.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/black-shoe.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
