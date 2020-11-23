@@ -4,3 +4,23 @@ canvas {
   cursor: pointer;
   &:focus { outline: none; }
 }
+
+#progressBar {
+  background: white;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+#progressContainer {
+  background: #787878;
+  height: .5rem;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+  width: 20vw;
+  @media (max-width: 992px) { width: 60vw; }
+}

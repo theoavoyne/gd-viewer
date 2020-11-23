@@ -14,6 +14,8 @@ import createRenderer from './three/createRenderer';
 import createScene from './three/createScene';
 
 const canvasElement = document.getElementById('canvas');
+const progressBarElement = document.getElementById('progressBar');
+const progressContainerElement = document.getElementById('progressContainer');
 
 const camera = createCamera();
 const light = createLight();
@@ -74,7 +76,11 @@ const promises = [
           dracoLoader.dispose();
           resolve(gltf.scene);
         },
-        undefined,
+        (xhr) => {
+          const progress = xhr.loaded / xhr.total;
+          progressBarElement.style.width = `${progress * 100}%`;
+          if (progress === 1) { progressContainerElement.style.opacity = 0; }
+        },
         reject,
       );
   }),
