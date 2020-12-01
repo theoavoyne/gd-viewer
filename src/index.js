@@ -71,6 +71,7 @@ const promises = [
 Promise.all(promises).then(([object]) => {
   const box = new Box3().setFromObject(object);
   const center = box.getCenter(new Vector3());
+  console.log(object);
   object.position.x += (object.position.x - center.x);
   object.position.y += (object.position.y - center.y);
   object.position.z += (object.position.z - center.z);
