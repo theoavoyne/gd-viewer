@@ -3,7 +3,7 @@ import { AmbientLight, DirectionalLight, Group } from 'three';
 const aLightColor = 0xffffff;
 const aLightItensity = 1;
 const dLightColor = 0x505050;
-const dLightItensity = 0.2;
+const dLightItensity = 0.02;
 const dLightPositions = [
   [0, 0, 100],
   [100, 0, 0],
