@@ -2,11 +2,10 @@ import 'normalize.css/normalize.css';
 import './static/styles/base.scss';
 
 import debounce from 'lodash.debounce';
-import { PMREMGenerator, UnsignedByteType, Vector3 } from 'three';
+import { Box3, Vector3 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 
 import createCamera from './three/createCamera';
 import createLight from './three/createLight';
@@ -49,29 +48,12 @@ const onResize = debounce(
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath('public/draco/');
 
-const pmremGenerator = new PMREMGenerator(renderer);
-pmremGenerator.compileEquirectangularShader();
-
 const promises = [
-  new Promise((resolve, reject) => {
-    new RGBELoader()
-      .setDataType(UnsignedByteType)
-      .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/venice-sunset.hdr?alt=media',
-        (texture) => {
-          const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-          pmremGenerator.dispose();
-          resolve(envMap);
-        },
-        undefined,
-        reject,
-      );
-  }),
   new Promise((resolve, reject) => {
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/black-shoe.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
@@ -86,13 +68,13 @@ const promises = [
   }),
 ];
 
-Promise.all(promises).then(([envMap, obj]) => {
-  scene.environment = envMap;
-  obj.scale.set(100, 100, 100);
-  obj.position.y = -15;
-  obj.rotateOnWorldAxis(new Vector3(1, 0, 0), -Math.PI / 2);
-  obj.rotation.z = Math.PI / 2;
-  scene.add(obj);
+Promise.all(promises).then(([object]) => {
+  const box = new Box3().setFromObject(object);
+  const center = box.getCenter(new Vector3());
+  object.position.x += (object.position.x - center.x);
+  object.position.y += (object.position.y - center.y);
+  object.position.z += (object.position.z - center.z);
+  scene.add(object);
   controls.enable = true;
   animate();
 });
