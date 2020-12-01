@@ -1,10 +1,10 @@
-import { AmbientLight, Group, PointLight } from 'three';
+import { AmbientLight, DirectionalLight, Group } from 'three';
 
-const ambientLightColor = 0xffffff;
-const ambientLightItensity = 1.5;
-const pointLightColor = 0x969696;
-const pointLightItensity = 0.05;
-const pointLightPositions = [
+const aLightColor = 0xffffff;
+const aLightItensity = 1;
+const dLightColor = 0x505050;
+const dLightItensity = 0.2;
+const dLightPositions = [
   [0, 0, 100],
   [100, 0, 0],
   [0, 0, -100],
@@ -14,14 +14,15 @@ const pointLightPositions = [
 export default () => {
   const lights = new Group();
 
-  pointLightPositions.forEach((position) => {
-    const light = new PointLight(pointLightColor, pointLightItensity);
-    light.position.set(...position);
-    lights.add(light);
+  dLightPositions.forEach((position) => {
+    const dLight = new DirectionalLight(dLightColor, dLightItensity);
+    dLight.castShadow = true;
+    dLight.position.set(...position);
+    lights.add(dLight);
   });
 
-  const ambientLight = new AmbientLight(ambientLightColor, ambientLightItensity);
-  lights.add(ambientLight);
+  const aLight = new AmbientLight(aLightColor, aLightItensity);
+  lights.add(aLight);
 
   return lights;
 };
