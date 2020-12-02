@@ -87,7 +87,7 @@ const promises = [
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/dior.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel3.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
@@ -105,9 +105,8 @@ const promises = [
 Promise.all(promises).then(([object]) => {
   const box = new Box3().setFromObject(object);
   const center = box.getCenter(new Vector3());
-  object.scale.set(20, 20, 20);
-  object.children[0].castShadow = true;
-  object.children[0].receiveShadow = true;
+  // object.children[0].castShadow = true;
+  // object.children[0].receiveShadow = true;
   object.position.x += (object.position.x - center.x);
   object.position.y += (object.position.y - center.y);
   object.position.z += (object.position.z - center.z);
