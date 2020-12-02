@@ -19,7 +19,7 @@ const progressBarElement = document.getElementById('progressBar');
 const progressContainerElement = document.getElementById('progressContainer');
 
 const stats = new Stats();
-stats.showPanel(0);
+stats.showPanel(2);
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -92,8 +92,8 @@ const promises = [
 Promise.all(promises).then(([object]) => {
   const box = new Box3().setFromObject(object);
   const center = box.getCenter(new Vector3());
-  object.children[0].children[0].children[0].children[0].castShadow = true;
-  object.children[0].children[0].children[0].children[0].receiveShadow = true;
+  object.children[0].castShadow = true;
+  object.children[0].receiveShadow = true;
   object.position.x += (object.position.x - center.x);
   object.position.y += (object.position.y - center.y);
   object.position.z += (object.position.z - center.z);
