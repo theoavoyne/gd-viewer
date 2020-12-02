@@ -2,6 +2,7 @@ import 'normalize.css/normalize.css';
 import './static/styles/base.scss';
 
 import debounce from 'lodash.debounce';
+import Stats from 'stats-js';
 import { Box3, Vector3 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -16,6 +17,14 @@ import createScene from './three/createScene';
 const canvasElement = document.getElementById('canvas');
 const progressBarElement = document.getElementById('progressBar');
 const progressContainerElement = document.getElementById('progressContainer');
+
+const stats = new Stats();
+stats.showPanel(0);
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const showStats = urlParams.get('stats') === 'true';
+if (showStats) { document.body.appendChild(stats.dom); }
 
 const camera = createCamera();
 const light = createLight();
@@ -34,6 +43,7 @@ scene.add(light);
 scene.add(particles);
 
 const animate = () => {
+  stats.begin();
   controls.update();
   particles.children.forEach((particle) => {
     if (particle.position.y <= -100) {
@@ -43,6 +53,7 @@ const animate = () => {
     }
   });
   renderer.render(scene, camera);
+  stats.end();
   requestAnimationFrame(animate);
 };
 
