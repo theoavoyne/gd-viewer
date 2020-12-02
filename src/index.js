@@ -87,7 +87,7 @@ const promises = [
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel2.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
