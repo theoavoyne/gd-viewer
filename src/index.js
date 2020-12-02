@@ -18,13 +18,24 @@ const canvasElement = document.getElementById('canvas');
 const progressBarElement = document.getElementById('progressBar');
 const progressContainerElement = document.getElementById('progressContainer');
 
-const stats = new Stats();
-stats.showPanel(2);
+let stats1;
+let stats2;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const showStats = urlParams.get('stats') === 'true';
-if (showStats) { document.body.appendChild(stats.dom); }
+
+if (showStats) {
+  stats1 = new Stats();
+  stats1.showPanel(0);
+  stats1.domElement.style.cssText = 'position:absolute;top:0px;left:0px;';
+  document.body.appendChild(stats1.dom);
+
+  stats2 = new Stats();
+  stats2.showPanel(2);
+  stats2.domElement.style.cssText = 'position:absolute;top:0px;left:80px;';
+  document.body.appendChild(stats2.dom);
+}
 
 const camera = createCamera();
 const light = createLight();
@@ -43,7 +54,8 @@ scene.add(light);
 scene.add(particles);
 
 const animate = () => {
-  stats.begin();
+  if (showStats) { stats1.begin(); }
+  if (showStats) { stats2.begin(); }
   controls.update();
   particles.children.forEach((particle) => {
     if (particle.position.y <= -100) {
@@ -53,7 +65,8 @@ const animate = () => {
     }
   });
   renderer.render(scene, camera);
-  stats.end();
+  if (showStats) { stats1.end(); }
+  if (showStats) { stats2.end(); }
   requestAnimationFrame(animate);
 };
 
