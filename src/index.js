@@ -32,7 +32,7 @@ if (showStats) {
   document.body.appendChild(stats1.dom);
 
   stats2 = new Stats();
-  stats2.showPanel(2);
+  stats2.showPanel(1);
   stats2.domElement.style.cssText = 'position:absolute;top:0px;left:80px;';
   document.body.appendChild(stats2.dom);
 }
@@ -87,7 +87,7 @@ const promises = [
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel3.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
@@ -103,10 +103,11 @@ const promises = [
 ];
 
 Promise.all(promises).then(([object]) => {
+  object.rotation.x = -Math.PI / 2;
   const box = new Box3().setFromObject(object);
   const center = box.getCenter(new Vector3());
-  // object.children[0].castShadow = true;
-  // object.children[0].receiveShadow = true;
+  object.castShadow = true;
+  object.receiveShadow = true;
   object.position.x += (object.position.x - center.x);
   object.position.y += (object.position.y - center.y);
   object.position.z += (object.position.z - center.z);

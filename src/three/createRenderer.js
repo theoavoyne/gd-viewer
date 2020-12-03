@@ -8,7 +8,6 @@ export default (canvas) => {
   renderer.outputEncoding = sRGBEncoding;
   renderer.shadowMap.enabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
 
   return renderer;
 };
