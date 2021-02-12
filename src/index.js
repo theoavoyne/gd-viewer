@@ -9,8 +9,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 import createCamera from './three/createCamera';
-import createLight from './three/createLight';
-import createParticles from './three/createParticles';
+import createLights from './three/createLights';
 import createRenderer from './three/createRenderer';
 import createScene from './three/createScene';
 
@@ -38,8 +37,7 @@ if (showStats) {
 }
 
 const camera = createCamera();
-const light = createLight();
-const particles = createParticles();
+const lights = createLights();
 const renderer = createRenderer(canvasElement);
 const scene = createScene();
 
@@ -47,23 +45,16 @@ const controls = new OrbitControls(camera, canvasElement);
 controls.autoRotate = true;
 controls.enable = false;
 controls.enableDamping = true;
+controls.enablePan = false;
 controls.maxDistance = 100;
 controls.minDistance = 30;
 
-scene.add(light);
-scene.add(particles);
+scene.add(lights);
 
 const animate = () => {
   if (showStats) { stats1.begin(); }
   if (showStats) { stats2.begin(); }
   controls.update();
-  particles.children.forEach((particle) => {
-    if (particle.position.y <= -100) {
-      particle.position.y = 100;
-    } else {
-      particle.position.y -= 0.1;
-    }
-  });
   renderer.render(scene, camera);
   if (showStats) { stats1.end(); }
   if (showStats) { stats2.end(); }

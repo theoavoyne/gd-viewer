@@ -47,7 +47,7 @@ module.exports = (env) => {
       }],
     },
     optimization: {
-      moduleIds: 'hashed',
+      moduleIds: 'deterministic',
       runtimeChunk: 'single',
       splitChunks: {
         chunks: 'all',

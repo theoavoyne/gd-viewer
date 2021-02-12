@@ -14,12 +14,12 @@ const dLightPositions = [
 export default () => {
   const lights = new Group();
 
-  dLightPositions.forEach((position) => {
-    const dLight = new DirectionalLight(dLightColor, dLightItensity);
-    dLight.castShadow = true;
-    dLight.position.set(...position);
-    lights.add(dLight);
-  });
+  // dLightPositions.forEach((position) => {
+  //  const dLight = new DirectionalLight(dLightColor, dLightItensity);
+  //  dLight.castShadow = true;
+  //  dLight.position.set(...position);
+  //  lights.add(dLight);
+  // });
 
   const aLight = new AmbientLight(aLightColor, aLightItensity);
   lights.add(aLight);
