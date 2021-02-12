@@ -3,7 +3,7 @@ import './static/styles/base.scss';
 
 import debounce from 'lodash.debounce';
 import Stats from 'stats-js';
-import { Box3, Vector3 } from 'three';
+import { Box3, EquirectangularReflectionMapping, sRGBEncoding, TextureLoader, Vector3 } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -75,10 +75,23 @@ dracoLoader.setDecoderPath('public/draco/');
 
 const promises = [
   new Promise((resolve, reject) => {
+    new TextureLoader()
+      .load(
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/studio.jpg?alt=media',
+        (texture) => {
+          texture.mapping = EquirectangularReflectionMapping;
+          texture.encoding = sRGBEncoding;
+          resolve(texture);
+        },
+        undefined,
+        reject,
+      );
+  }),
+  new Promise((resolve, reject) => {
     new GLTFLoader()
       .setDRACOLoader(dracoLoader)
       .load(
-        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel.glb?alt=media',
+        'https://firebasestorage.googleapis.com/v0/b/gd-viewer.appspot.com/o/darel4.glb?alt=media',
         (gltf) => {
           dracoLoader.dispose();
           resolve(gltf.scene);
@@ -93,12 +106,10 @@ const promises = [
   }),
 ];
 
-Promise.all(promises).then(([object]) => {
-  object.rotation.x = -Math.PI / 2;
+Promise.all(promises).then(([envMap, object]) => {
+  scene.environment = envMap;
   const box = new Box3().setFromObject(object);
   const center = box.getCenter(new Vector3());
-  object.castShadow = true;
-  object.receiveShadow = true;
   object.position.x += (object.position.x - center.x);
   object.position.y += (object.position.y - center.y);
   object.position.z += (object.position.z - center.z);
